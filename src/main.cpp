@@ -1,6 +1,7 @@
-#include <iostream>
+import notecraft.gui;
 
 int main() {
-    std::cout << "Boom" << std::endl;
-    return 0;
+  notecraft::gui::MainWindow window;
+  window.run();
+  return 0;
 }

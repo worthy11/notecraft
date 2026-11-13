@@ -19,6 +19,10 @@ add_executable(NoteCraft)
 target_sources(NoteCraft
   PRIVATE
     src/main.cpp
+    src/gui/main_window.cpp
+  PRIVATE
+    FILE_SET CXX_MODULES FILES
+      src/gui/gui.cppm
 )
 
 target_link_libraries(NoteCraft
