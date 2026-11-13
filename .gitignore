@@ -1,0 +1,21 @@
+# Build
+build/
+out/
+cmake-build-*/
+
+# IDE / lokalne
+.vs/
+.idea/
+*.user
+*.suo
+CMakeUserPresets.json
+
+# Artefakty
+*.obj
+*.pdb
+*.ilk
+*.exe
+!docs/**
+
+# vcpkg (lokalny katalog, nie klon w repo)
+vcpkg_installed/

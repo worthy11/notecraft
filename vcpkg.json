@@ -1,0 +1,12 @@
+{
+  "name": "notecraft",
+  "version-string": "0.1.0",
+  "dependencies": [
+    {
+      "name": "sfml",
+      "features": ["graphics", "window", "audio"]
+    },
+    "boost-json",
+    "catch2"
+  ]
+}
