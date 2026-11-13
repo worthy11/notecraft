@@ -1,0 +1,3 @@
+C:/Users/slota/Documents/VS Code/Studia/cpp/notecraft/build/CMakeFiles/NoteCraft.dir
+C:/Users/slota/Documents/VS Code/Studia/cpp/notecraft/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/slota/Documents/VS Code/Studia/cpp/notecraft/build/CMakeFiles/ZERO_CHECK.dir
