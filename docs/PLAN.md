@@ -34,11 +34,11 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 **Rezultat:** niezależny od GUI model utworu.
 
-### 🟡 Etap II – silnik audio
+### 🟢 Etap II – silnik audio
 
 #### 3. Generowanie dźwięku
 
-**?**
+**Max Słota** ✅
 
 - Implementacja generatorów fal: sinusoidalnej, prostokątnej i piłokształtnej.
 - Przeliczanie wysokości nuty na częstotliwość.
@@ -49,7 +49,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 4. Obwiednia ADSR i instrumenty
 
-**?**
+**Max Słota** ✅
 
 - Implementacja obwiedni Attack, Decay, Sustain, Release.
 - Definiowanie parametrów instrumentów.
