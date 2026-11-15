@@ -14,6 +14,17 @@ endif()
 
 find_package(SFML CONFIG REQUIRED COMPONENTS Graphics Window System Audio)
 
+add_library(notecraft_music STATIC)
+
+target_sources(notecraft_music
+  PRIVATE
+    src/music/tempo.cpp
+    src/music/sequence.cpp
+  PUBLIC
+    FILE_SET CXX_MODULES FILES
+      src/music/music.cppm
+)
+
 add_executable(NoteCraft)
 
 target_sources(NoteCraft
@@ -27,6 +38,7 @@ target_sources(NoteCraft
 
 target_link_libraries(NoteCraft
   PRIVATE
+    notecraft_music
     SFML::Graphics
     SFML::Window
     SFML::System
