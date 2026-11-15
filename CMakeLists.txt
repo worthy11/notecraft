@@ -32,6 +32,8 @@ target_sources(notecraft_audio
     src/audio/oscillator.cpp
     src/audio/envelope.cpp
     src/audio/audio_engine.cpp
+    src/audio/voice.cpp
+    src/audio/synth.cpp
   PUBLIC
     FILE_SET CXX_MODULES FILES
       src/audio/audio.cppm
@@ -58,6 +60,25 @@ target_link_libraries(notecraft_instruments
     notecraft_audio
 )
 
+add_library(notecraft_playback STATIC)
+
+target_sources(notecraft_playback
+  PRIVATE
+    src/playback/sequencer.cpp
+    src/playback/player.cpp
+  PUBLIC
+    FILE_SET CXX_MODULES FILES
+      src/playback/playback.cppm
+)
+
+target_link_libraries(notecraft_playback
+  PUBLIC
+    notecraft_music
+    notecraft_audio
+    notecraft_instruments
+    SFML::Audio
+)
+
 add_executable(NoteCraft)
 
 target_sources(NoteCraft
@@ -74,6 +95,7 @@ target_link_libraries(NoteCraft
     notecraft_music
     notecraft_audio
     notecraft_instruments
+    notecraft_playback
     SFML::Graphics
     SFML::Window
     SFML::System

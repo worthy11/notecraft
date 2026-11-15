@@ -1,8 +1,10 @@
 module;
 
 #include <concepts>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <vector>
 
 export module notecraft.audio;
@@ -71,6 +73,71 @@ private:
   float level_ = 0.f;
   float release_from_ = 0.f;
   double release_elapsed_ = 0.0;
+};
+
+struct VoiceSettings {
+  Waveform waveform = Waveform::Sine;
+  Adsr adsr{};
+  float gain = 0.3f;
+};
+
+class Voice {
+public:
+  void start(std::uint64_t key,
+             double frequency,
+             float velocity,
+             const VoiceSettings& settings);
+  void release();
+  void kill();
+
+  bool is_active() const;
+  bool is_released() const;
+  std::uint64_t key() const;
+
+  float next_sample(double sample_rate);
+
+private:
+  Oscillator oscillator_;
+  Envelope envelope_;
+  std::uint64_t key_ = 0;
+  float amplitude_ = 0.f;
+  bool released_ = false;
+};
+
+class Synth {
+public:
+  static constexpr std::size_t default_max_voices = 32;
+
+  explicit Synth(std::size_t max_voices = default_max_voices);
+
+  void note_on(std::uint64_t key,
+               double frequency,
+               float velocity,
+               const VoiceSettings& settings);
+  void note_off(std::uint64_t key);
+  void release_all();
+  void reset();
+
+  std::size_t max_voices() const;
+  std::size_t active_voices() const;
+
+  float master_gain() const;
+  void set_master_gain(float gain);
+
+  float next_sample(double sample_rate);
+  void render(std::span<std::int16_t> output, double sample_rate);
+
+private:
+  struct Slot {
+    Voice voice;
+    std::uint64_t order = 0;
+  };
+
+  Slot& pick_slot();
+
+  std::vector<Slot> slots_;
+  std::uint64_t counter_ = 0;
+  float master_gain_ = 1.f;
 };
 
 std::vector<std::int16_t> render_tone(double frequency,
