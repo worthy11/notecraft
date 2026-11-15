@@ -99,13 +99,19 @@ void Player::play() {
 }
 
 void Player::pause() {
-  const std::scoped_lock lock(impl_->mutex);
-  impl_->sequencer.pause();
+  {
+    const std::scoped_lock lock(impl_->mutex);
+    impl_->sequencer.pause();
+  }
+  impl_->stream.pause();
 }
 
 void Player::stop() {
-  const std::scoped_lock lock(impl_->mutex);
-  impl_->sequencer.stop();
+  {
+    const std::scoped_lock lock(impl_->mutex);
+    impl_->sequencer.stop();
+  }
+  impl_->stream.stop();
 }
 
 void Player::seek(music::Tick tick) {

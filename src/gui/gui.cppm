@@ -1,15 +1,20 @@
 module;
 
+#include <compare>
 #include <memory>
 #include <string>
+#include <utility>
 
 export module notecraft.gui;
+
+export import notecraft.music;
 
 export namespace notecraft::gui {
 
 class MainWindow {
 public:
-  explicit MainWindow(std::string title = "NoteCraft",
+  explicit MainWindow(music::Sequence sequence,
+                      std::string title = "NoteCraft",
                       unsigned width = 1280,
                       unsigned height = 720);
   ~MainWindow();

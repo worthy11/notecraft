@@ -14,7 +14,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 1. Architektura projektu i konfiguracja środowiska
 
-**Max Słota**
+**Max Słota** ✅
 
 - Utworzenie repozytorium i struktury katalogów.
 - Konfiguracja CMake.
@@ -25,7 +25,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 2. Model muzyczny
 
-**Karolina Rozmus**
+**Karolina Rozmus** ✅
 
 - Implementacja reprezentacji nuty (pitch, velocity, start, duration).
 - Implementacja sekwencji nut.
@@ -58,11 +58,11 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 **Rezultat:** różne brzmienia generowane przez własny syntezator.
 
-### 🟡 Etap III – odtwarzanie muzyki
+### 🟢 Etap III – odtwarzanie muzyki
 
 #### 5. Silnik odtwarzania i polifonia
 
-**?**
+**Karolina Rozmus** ✅
 
 - Obsługa wielu jednocześnie odtwarzanych nut.
 - Miksowanie sygnałów z wielu generatorów.
@@ -73,7 +73,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 6. Synchronizacja i kontrola odtwarzania
 
-**?**
+**Karolina Rozmus** ✅
 
 - Synchronizacja nut z tempem BPM.
 - Implementacja Play, Pause, Stop.
@@ -82,11 +82,11 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 **Rezultat:** odtwarzanie całego utworu zgodnie z piano rollem.
 
-### 🟡 Etap IV – interfejs użytkownika
+### 🟢 Etap IV – interfejs użytkownika
 
 #### 7. Piano roll
 
-**?**
+**Max Słota** ✅
 
 - Implementacja siatki reprezentującej czas i wysokość nut.
 - Wyświetlanie nut na siatce.
@@ -97,7 +97,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 8. Panel instrumentów i sterowanie
 
-**?**
+**Max Słota** ✅
 
 - Lista dostępnych instrumentów.
 - Zmiana parametrów instrumentu.

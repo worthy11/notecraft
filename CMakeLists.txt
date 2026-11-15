@@ -88,6 +88,8 @@ target_sources(NoteCraft
   PRIVATE
     FILE_SET CXX_MODULES FILES
       src/gui/gui.cppm
+      src/gui/piano_roll.cppm
+      src/gui/control_panel.cppm
 )
 
 target_link_libraries(NoteCraft

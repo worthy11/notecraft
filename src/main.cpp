@@ -1,8 +1,6 @@
-#include <chrono>
-#include <thread>
+#include <compare>
 
 import notecraft.gui;
-import notecraft.playback;
 
 namespace {
 
@@ -41,17 +39,7 @@ notecraft::music::Sequence demo_song() {
 }  // namespace
 
 int main() {
-  notecraft::playback::Player player;
-  player.set_instrument(notecraft::instruments::piano());
-  player.set_sequence(demo_song());
-  player.play();
-
-  while (player.state() != notecraft::playback::State::Stopped) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(20));
-  }
-  std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-  // notecraft::gui::MainWindow window;
-  // window.run();
+  notecraft::gui::MainWindow window(demo_song());
+  window.run();
   return 0;
 }

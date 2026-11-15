@@ -43,6 +43,7 @@ Sequencer::Sequencer(unsigned sample_rate) {
   if (sample_rate > 0) {
     sample_rate_ = sample_rate;
   }
+  synth_.set_master_gain(instrument_.gain);
 }
 
 void Sequencer::set_sequence(music::Sequence sequence) {
@@ -59,6 +60,8 @@ const music::Sequence& Sequencer::sequence() const { return sequence_; }
 
 void Sequencer::set_instrument(const instruments::Instrument& instrument) {
   instrument_ = instrument;
+  // Live instrument volume — affects currently sounding notes immediately.
+  synth_.set_master_gain(instrument_.gain);
 }
 
 const instruments::Instrument& Sequencer::instrument() const {
@@ -186,7 +189,8 @@ double Sequencer::ticks_per_sample() const {
 }
 
 audio::VoiceSettings Sequencer::voice_settings() const {
-  return {instrument_.waveform, instrument_.adsr, instrument_.gain};
+  // Gain is applied via Synth::master_gain so volume can change live.
+  return {instrument_.waveform, instrument_.adsr, 1.f};
 }
 
 }  // namespace notecraft::playback
