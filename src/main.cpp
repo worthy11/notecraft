@@ -38,8 +38,11 @@ notecraft::music::Sequence demo_song() {
 
 }  // namespace
 
-int main() {
+int main(int argc, char** argv) {
   notecraft::gui::MainWindow window(demo_song());
+  if (argc > 1) {
+    window.open(argv[1]);
+  }
   window.run();
   return 0;
 }

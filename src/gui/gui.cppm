@@ -1,6 +1,7 @@
 module;
 
 #include <compare>
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <utility>
@@ -25,6 +26,7 @@ public:
   MainWindow(MainWindow&&) noexcept;
   MainWindow& operator=(MainWindow&&) noexcept;
 
+  bool open(const std::filesystem::path& path);
   void run();
 
 private:

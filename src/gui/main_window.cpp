@@ -2,13 +2,18 @@ module;
 
 #include <SFML/Graphics.hpp>
 #include <array>
+#include <filesystem>
+#include <string>
+#include <string_view>
 #include <utility>
 
 module notecraft.gui;
 
 import :control_panel;
 import :piano_roll;
+import notecraft.midi;
 import notecraft.playback;
+import notecraft.project;
 
 namespace notecraft::gui {
 
@@ -19,9 +24,11 @@ bool load_ui_font(sf::Font& font) {
       "C:/Windows/Fonts/segoeui.ttf",
       "C:/Windows/Fonts/arial.ttf",
       "C:/Windows/Fonts/calibri.ttf",
+      "/System/Library/Fonts/Supplemental/Arial.ttf",
+      "/System/Library/Fonts/Helvetica.ttc",
   };
   for (const char* path : paths) {
-    if (font.openFromFile(path)) {
+    if (std::filesystem::exists(path) && font.openFromFile(path)) {
       return true;
     }
   }
@@ -47,6 +54,9 @@ struct MainWindow::Impl {
   std::optional<sf::Cursor> arrow_cursor;
   std::optional<sf::Cursor> resize_cursor;
   PianoCursor current_cursor = PianoCursor::Arrow;
+  std::string title = "NoteCraft";
+  std::filesystem::path project_path = "notecraft_project.json";
+  std::filesystem::path midi_path = "notecraft_export.mid";
 
   explicit Impl(music::Sequence seq)
       : sequence(std::move(seq)), piano_roll(sequence) {
@@ -84,6 +94,69 @@ struct MainWindow::Impl {
       instruments[static_cast<std::size_t>(instrument_index)] = edited;
       player.set_instrument(edited);
     }
+  }
+
+  void show_status(std::string_view message) {
+    window.setTitle(title + " - " + std::string(message));
+  }
+
+  void show_error(std::string_view message) {
+    show_status("Error: " + std::string(message));
+  }
+
+  project::Project current_project() const {
+    return {sequence, instruments, instrument_index};
+  }
+
+  void apply_project(project::Project loaded) {
+    player.stop();
+    piano_roll.set_playhead(std::nullopt);
+    sequence = std::move(loaded.sequence);
+    instruments = loaded.instruments;
+    instrument_index = loaded.instrument_index;
+    player.set_sequence(sequence);
+    player.set_bpm(sequence.tempo().bpm());
+    player.set_instrument(current_instrument());
+    refresh_controls();
+  }
+
+  bool open_file(const std::filesystem::path& path) {
+    const auto extension = path.extension();
+    if (extension == ".mid" || extension == ".midi") {
+      auto loaded = midi::load(path);
+      if (!loaded) {
+        show_error(midi::describe(loaded.error()));
+        return false;
+      }
+      apply_project({std::move(*loaded), instruments, instrument_index});
+      midi_path = path;
+    } else {
+      auto loaded = project::load(path);
+      if (!loaded) {
+        show_error(project::describe(loaded.error()));
+        return false;
+      }
+      apply_project(std::move(*loaded));
+      project_path = path;
+    }
+    show_status("Opened " + path.filename().string());
+    return true;
+  }
+
+  void save_project() {
+    if (const auto saved = project::save(current_project(), project_path); !saved) {
+      show_error(project::describe(saved.error()));
+      return;
+    }
+    show_status("Saved " + project_path.filename().string());
+  }
+
+  void export_midi() {
+    if (const auto saved = midi::save(sequence, midi_path); !saved) {
+      show_error(midi::describe(saved.error()));
+      return;
+    }
+    show_status("Exported " + midi_path.filename().string());
   }
 
   void update_cursor(sf::Vector2f pos) {
@@ -140,6 +213,22 @@ struct MainWindow::Impl {
       case ControlAction::MenuClose:
         menu_open = false;
         break;
+      case ControlAction::SaveProject:
+        menu_open = false;
+        save_project();
+        break;
+      case ControlAction::OpenProject:
+        menu_open = false;
+        open_file(project_path);
+        break;
+      case ControlAction::ExportMidi:
+        menu_open = false;
+        export_midi();
+        break;
+      case ControlAction::ImportMidi:
+        menu_open = false;
+        open_file(midi_path);
+        break;
       case ControlAction::None:
         break;
     }
@@ -152,8 +241,13 @@ MainWindow::MainWindow(music::Sequence sequence,
                        unsigned width,
                        unsigned height)
     : impl_(std::make_unique<Impl>(std::move(sequence))) {
+  impl_->title = title;
   impl_->window.create(sf::VideoMode({width, height}), std::move(title));
   impl_->layout();
+}
+
+bool MainWindow::open(const std::filesystem::path& path) {
+  return impl_->open_file(path);
 }
 
 MainWindow::~MainWindow() = default;

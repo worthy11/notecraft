@@ -29,6 +29,10 @@ enum class ControlAction {
   ToggleMixer,
   ToggleMenu,
   MenuClose,
+  SaveProject,
+  OpenProject,
+  ExportMidi,
+  ImportMidi,
 };
 
 class ControlPanel {
@@ -241,6 +245,18 @@ private:
       float menu_x = 250.f;
       float menu_y = toolbar_h;
       const float item_h = 30.f;
+      add_button(menu_x, menu_y, 140.f, item_h, ControlAction::SaveProject,
+                 "Save Project", false, true);
+      menu_y += item_h + 2.f;
+      add_button(menu_x, menu_y, 140.f, item_h, ControlAction::OpenProject,
+                 "Open Project", false, true);
+      menu_y += item_h + 2.f;
+      add_button(menu_x, menu_y, 140.f, item_h, ControlAction::ExportMidi,
+                 "Export MIDI", false, true);
+      menu_y += item_h + 2.f;
+      add_button(menu_x, menu_y, 140.f, item_h, ControlAction::ImportMidi,
+                 "Import MIDI", false, true);
+      menu_y += item_h + 2.f;
       add_button(menu_x, menu_y, 140.f, item_h, ControlAction::ToggleMixer,
                  mixer_open_ ? "Hide Mixer" : "Show Mixer", false, true);
       menu_y += item_h + 2.f;

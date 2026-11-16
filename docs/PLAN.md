@@ -111,7 +111,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 9. Obsługa plików MIDI
 
-**?**
+**Karolina Rozmus** ✅
 
 - Eksport sekwencji do pliku MIDI.
 - Import plików MIDI.
@@ -121,7 +121,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 10. Zapisywanie projektów
 
-**?**
+**Karolina Rozmus** ✅
 
 - Zapis i odczyt projektu.
 - Przechowywanie nut, tempa i instrumentów.
@@ -131,7 +131,7 @@ Podział: 2 osoby, 12 kroków, po 6 zadań na osobę. Każdy krok ma jednego wł
 
 #### 11. Testy jednostkowe i integracyjne
 
-**?**
+**Karolina Rozmus** ✅
 
 - Integracja Catch2.
 - Testy przeliczania wysokości nut na częstotliwości.

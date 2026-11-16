@@ -71,4 +71,12 @@ cmake --build --preset debug
 .\build\Debug\NoteCraft.exe
 ```
 
+### 3. Testy
+
+Testy jednostkowe i integracyjne (Catch2) są w katalogu [`tests/`](tests/) i budują się razem z aplikacją jako `notecraft_tests`.
+
+```powershell
+ctest --test-dir build -C Debug --output-on-failure
+```
+
 **Uwaga (MSYS2):** jeśli `where.exe cmake` jako pierwsze pokazuje `C:\msys64\ucrt64\bin\cmake.exe`, vcpkg może wywalić się na `zlib` (`RC1107`). Ustaw `C:\Program Files\CMake\bin` wyżej w PATH użytkownika albo usuń `msys64\ucrt64\bin` z PATH przy budowaniu NoteCraft.

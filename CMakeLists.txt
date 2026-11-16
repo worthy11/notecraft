@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(NoteCraft LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -13,6 +13,7 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
 endif()
 
 find_package(SFML CONFIG REQUIRED COMPONENTS Graphics Window System Audio)
+find_package(boost_json CONFIG REQUIRED)
 
 add_library(notecraft_music STATIC)
 
@@ -79,6 +80,40 @@ target_link_libraries(notecraft_playback
     SFML::Audio
 )
 
+add_library(notecraft_midi STATIC)
+
+target_sources(notecraft_midi
+  PRIVATE
+    src/midi/midi_writer.cpp
+    src/midi/midi_reader.cpp
+  PUBLIC
+    FILE_SET CXX_MODULES FILES
+      src/midi/midi.cppm
+)
+
+target_link_libraries(notecraft_midi
+  PUBLIC
+    notecraft_music
+)
+
+add_library(notecraft_project STATIC)
+
+target_sources(notecraft_project
+  PRIVATE
+    src/project/project.cpp
+  PUBLIC
+    FILE_SET CXX_MODULES FILES
+      src/project/project.cppm
+)
+
+target_link_libraries(notecraft_project
+  PUBLIC
+    notecraft_music
+    notecraft_instruments
+  PRIVATE
+    Boost::json
+)
+
 add_executable(NoteCraft)
 
 target_sources(NoteCraft
@@ -98,8 +133,40 @@ target_link_libraries(NoteCraft
     notecraft_audio
     notecraft_instruments
     notecraft_playback
+    notecraft_midi
+    notecraft_project
     SFML::Graphics
     SFML::Window
     SFML::System
     SFML::Audio
 )
+
+find_package(Catch2 3 CONFIG REQUIRED)
+
+add_executable(notecraft_tests)
+
+target_sources(notecraft_tests
+  PRIVATE
+    tests/music_tests.cpp
+    tests/audio_tests.cpp
+    tests/instruments_tests.cpp
+    tests/playback_tests.cpp
+    tests/midi_tests.cpp
+    tests/project_tests.cpp
+    tests/integration_tests.cpp
+)
+
+target_link_libraries(notecraft_tests
+  PRIVATE
+    notecraft_music
+    notecraft_audio
+    notecraft_instruments
+    notecraft_playback
+    notecraft_midi
+    notecraft_project
+    Catch2::Catch2WithMain
+)
+
+include(CTest)
+include(Catch)
+catch_discover_tests(notecraft_tests)
